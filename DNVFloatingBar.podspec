@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "DNVFloatingBar"
-  s.version      = "0.1"
+  s.version      = "0.2"
   s.summary      = "Floating rounded bar with buttons for iOS apps."
 
   s.description  = <<-DESC
@@ -16,5 +16,6 @@ DNVFloatingBar is a control that displays buttons in a rounded panel that floats
   s.source       = { :git => "https://github.com/DnV1eX/DNVFloatingBar.git", :tag => "#{s.version}" }
   s.source_files = "DNVFloatingBar"
   s.requires_arc = true
+  s.pod_target_xcconfig = { "SWIFT_VERSION" => "3.0" }
 
 end
