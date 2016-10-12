@@ -15,9 +15,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let searchBarItem = DNVFloatingBarItem(image: UIImage(named: "Search"), target: nil, action: nil)
-        let attachBarItem = DNVFloatingBarItem(image: UIImage(named: "Attach"), target: nil, action: nil)
-        let textBarItem = DNVFloatingBarItem(image: UIImage(named: "Generic Text"), target: nil, action: nil)
+        let searchBarItem = UIBarButtonItem(image: UIImage(named: "Search"), style: .plain, target: self, action: #selector(buttonTapped(item:)))
+        let attachBarItem = UIBarButtonItem(image: UIImage(named: "Attach"), style: .plain, target: self, action: #selector(buttonTapped(item:)))
+        let textBarItem = UIBarButtonItem(image: UIImage(named: "Generic Text"), style: .plain, target: self, action: #selector(buttonTapped(item:)))
         bar.items = [searchBarItem, attachBarItem, textBarItem];
         bar.backgroundColor = .brown
         view.addSubview(bar)
@@ -26,6 +26,10 @@ class ViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         bar.setNeedsLayout()
         super.viewWillLayoutSubviews()
+    }
+    
+    func buttonTapped(item: UIBarButtonItem) {
+        print(item)
     }
 }
 

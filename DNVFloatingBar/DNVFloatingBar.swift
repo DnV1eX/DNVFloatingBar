@@ -8,9 +8,9 @@
 
 import UIKit
 
-class DNVFloatingBar: UIView {
+public class DNVFloatingBar: UIView {
 
-    var items: [DNVFloatingBarItem]? {
+    public var items: [UIBarButtonItem]? {
         didSet {
             for button in subviews where button is UIButton {
                 button.removeFromSuperview()
@@ -29,14 +29,18 @@ class DNVFloatingBar: UIView {
         }
     }
     
-    var height: CGFloat = 40
+    public var height: CGFloat {
+        didSet { setNeedsLayout() }
+    }
     
-    var barInsets: UIEdgeInsets
+    public var barInsets: UIEdgeInsets {
+        didSet { setNeedsLayout() }
+    }
     
-    private var isKeyboardShown = false
     private var keyboardHeight: CGFloat = 0
     
     init() {
+        height = 40
         barInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         
         super.init(frame: CGRect(x: 0, y: 0, width: height * 2, height: height))
@@ -52,11 +56,11 @@ class DNVFloatingBar: UIView {
         layer.shadowColor = UIColor.gray.cgColor
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         
         guard let superview = superview else { return }
@@ -70,21 +74,13 @@ class DNVFloatingBar: UIView {
         }
     }
 
-    override func willMove(toSuperview newSuperview: UIView?) {
+    override public func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
         
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillChangeFrame, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardDidHide, object: nil)
         if newSuperview != nil {
-            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: .UIKeyboardWillShow, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame(notification:)), name: .UIKeyboardWillChangeFrame, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(notification:)), name: .UIKeyboardDidHide, object: nil)
         }
-    }
-    
-    func keyboardWillShow(notification: NSNotification) {
-        isKeyboardShown = true
     }
     
     func keyboardWillChangeFrame(notification: NSNotification) {
@@ -97,9 +93,5 @@ class DNVFloatingBar: UIView {
             self.setNeedsLayout()
             self.layoutIfNeeded()
             }, completion: nil)
-    }
-    
-    func keyboardDidHide(notification: NSNotification) {
-        isKeyboardShown = false
     }
 }

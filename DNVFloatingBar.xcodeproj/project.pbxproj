@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		EC0E3C9A1DA7F5AA00C644C0 /* DNVFloatingBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0E3C991DA7F5AA00C644C0 /* DNVFloatingBar.swift */; };
-		EC0E3C9C1DA7F61700C644C0 /* DNVFloatingBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0E3C9B1DA7F61700C644C0 /* DNVFloatingBarItem.swift */; };
 		ECCF38841DA7F1B100627AA6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCF38831DA7F1B100627AA6 /* AppDelegate.swift */; };
 		ECCF38861DA7F1B100627AA6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCF38851DA7F1B100627AA6 /* ViewController.swift */; };
 		ECCF38891DA7F1B100627AA6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ECCF38871DA7F1B100627AA6 /* Main.storyboard */; };
@@ -18,7 +17,6 @@
 
 /* Begin PBXFileReference section */
 		EC0E3C991DA7F5AA00C644C0 /* DNVFloatingBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DNVFloatingBar.swift; sourceTree = "<group>"; };
-		EC0E3C9B1DA7F61700C644C0 /* DNVFloatingBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DNVFloatingBarItem.swift; sourceTree = "<group>"; };
 		ECCF38801DA7F1B100627AA6 /* DNVFloatingBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DNVFloatingBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECCF38831DA7F1B100627AA6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ECCF38851DA7F1B100627AA6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -43,7 +41,6 @@
 			isa = PBXGroup;
 			children = (
 				EC0E3C991DA7F5AA00C644C0 /* DNVFloatingBar.swift */,
-				EC0E3C9B1DA7F61700C644C0 /* DNVFloatingBarItem.swift */,
 			);
 			path = DNVFloatingBar;
 			sourceTree = "<group>";
@@ -154,7 +151,6 @@
 				ECCF38861DA7F1B100627AA6 /* ViewController.swift in Sources */,
 				EC0E3C9A1DA7F5AA00C644C0 /* DNVFloatingBar.swift in Sources */,
 				ECCF38841DA7F1B100627AA6 /* AppDelegate.swift in Sources */,
-				EC0E3C9C1DA7F61700C644C0 /* DNVFloatingBarItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
