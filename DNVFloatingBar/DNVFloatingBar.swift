@@ -12,14 +12,14 @@ public class DNVFloatingBar: UIView {
 
     public var items: [UIBarButtonItem]? {
         didSet {
-            for button in subviews where button is UIButton {
+            for button in clipView.subviews where button is UIButton {
                 button.removeFromSuperview()
             }
             if let items = items {
                 for item in items {
                     let button = UIButton(type: .custom)
                     button.setImage(item.image, for: .normal)
-                    addSubview(button)
+                    clipView.addSubview(button)
                     if let action = item.action {
                         button.addTarget(item.target, action: action, for: .touchUpInside)
                     }
@@ -33,17 +33,23 @@ public class DNVFloatingBar: UIView {
         didSet { setNeedsLayout() }
     }
     
-    public var barInsets: UIEdgeInsets {
+    public var offset: CGPoint {
+        didSet { setNeedsLayout() }
+    }
+    
+    public var padding: CGFloat {
         didSet { setNeedsLayout() }
     }
     
     private var keyboardHeight: CGFloat = 0
+    private let clipView = UIView()
     
     init() {
         height = 40
-        barInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        offset = CGPoint(x: 20, y: 20)
+        padding = 5
         
-        super.init(frame: CGRect(x: 0, y: 0, width: height * 2, height: height))
+        super.init(frame: CGRect(x: 0, y: 0, width: height + padding * 2, height: height))
         
         backgroundColor = .white
         
@@ -54,6 +60,13 @@ public class DNVFloatingBar: UIView {
         layer.shadowOffset = CGSize(width: 1, height: 1)
         layer.shadowRadius = 1.5
         layer.shadowColor = UIColor.gray.cgColor
+        
+        autoresizingMask = [.flexibleLeftMargin, .flexibleTopMargin]
+        
+        clipView.frame = bounds
+        clipView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        clipView.clipsToBounds = true
+        addSubview(clipView)
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -65,12 +78,14 @@ public class DNVFloatingBar: UIView {
         
         guard let superview = superview else { return }
         
-        frame.size = CGSize(width: height * CGFloat(items?.count ?? 0) + height / 2, height: height)
-        center = CGPoint(x: superview.bounds.width - barInsets.right - frame.width / 2, y: superview.bounds.height - keyboardHeight - barInsets.bottom - frame.height / 2)
-        layer.cornerRadius = height / 2
+        frame.size = CGSize(width: height * CGFloat(items?.count ?? 0) + padding * 2, height: height)
+        center = CGPoint(x: superview.bounds.width - offset.x - frame.width / 2, y: superview.bounds.height - keyboardHeight - offset.y - frame.height / 2)
         
-        for (index, button) in subviews.enumerated() where button is UIButton {
-            button.frame = CGRect(x: height * CGFloat(index) + height / 4, y: 0, width: height, height: height)
+        layer.cornerRadius = height / 2
+        clipView.layer.cornerRadius = layer.cornerRadius
+        
+        for (index, button) in clipView.subviews.enumerated() where button is UIButton {
+            button.frame = CGRect(x: height * CGFloat(index) + padding, y: 0, width: height, height: height)
         }
     }
 
