@@ -10,25 +10,58 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var textView: UITextView!
+    
     let bar = DNVFloatingBar()
+    
+    let searchBarButtonItem = UIBarButtonItem(image: UIImage(named: "Search"), style: .plain, target: self, action: #selector(menuButtonTapped(button:)))
+    let attachBarButtonItem = UIBarButtonItem(image: UIImage(named: "Attach"), style: .plain, target: self, action: #selector(menuButtonTapped(button:)))
+    let textBarButtonItem = UIBarButtonItem(image: UIImage(named: "Generic Text"), style: .plain, target: self, action: #selector(menuButtonTapped(button:)))
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let searchBarItem = UIBarButtonItem(image: UIImage(named: "Search"), style: .plain, target: self, action: #selector(buttonTapped(button:)))
-        let attachBarItem = UIBarButtonItem(image: UIImage(named: "Attach"), style: .plain, target: self, action: #selector(buttonTapped(button:)))
-        let textBarItem = UIBarButtonItem(image: UIImage(named: "Generic Text"), style: .plain, target: self, action: #selector(buttonTapped(button:)))
-        bar.items = [searchBarItem, attachBarItem, textBarItem];
+        if let path = Bundle.main.path(forResource: "LICENSE", ofType: "txt") {
+            textView.text = try? String(contentsOfFile: path)
+        }
+        
+        let showHideBarButtonItem = UIBarButtonItem(title: "Hide", style: .plain, target: self, action: #selector(showHideButtonTapped(item:)))
+        navigationItem.leftBarButtonItem = showHideBarButtonItem
+        
+        let mode0BarButtonItem = UIBarButtonItem(title: "0", style: .plain, target: self, action: #selector(switchModeButtonTapped(item:)))
+        let mode1BarButtonItem = UIBarButtonItem(title: "1", style: .plain, target: self, action: #selector(switchModeButtonTapped(item:)))
+        let mode2BarButtonItem = UIBarButtonItem(title: "2", style: .plain, target: self, action: #selector(switchModeButtonTapped(item:)))
+        let mode3BarButtonItem = UIBarButtonItem(title: "3", style: .plain, target: self, action: #selector(switchModeButtonTapped(item:)))
+        navigationItem.rightBarButtonItems = [mode3BarButtonItem, mode2BarButtonItem, mode1BarButtonItem, mode0BarButtonItem]
+        
+        bar.items = [searchBarButtonItem, attachBarButtonItem, textBarButtonItem];
         bar.backgroundColor = .brown
         view.addSubview(bar)
     }
 
-    override func viewWillLayoutSubviews() {
-//        bar.setNeedsLayout()
-        super.viewWillLayoutSubviews()
+    func showHideButtonTapped(item: UIBarButtonItem) {
+        textView.resignFirstResponder()
     }
     
-    func buttonTapped(button: UIButton) {
+    func switchModeButtonTapped(item: UIBarButtonItem) {
+        switch item.title {
+        case "0"?:
+//            bar.items = nil
+            bar.setItems(nil, animated: true)
+        case "1"?:
+//            bar.items = [searchBarButtonItem];
+            bar.setItems([self.searchBarButtonItem], animated: true)
+        case "2"?:
+//            bar.items = [searchBarButtonItem, textBarButtonItem];
+            bar.setItems([self.searchBarButtonItem, self.textBarButtonItem], animated: true)
+        case "3"?:
+            bar.setItems([self.searchBarButtonItem, self.attachBarButtonItem, self.textBarButtonItem], animated: true)
+        default:
+            break
+        }
+    }
+    
+    func menuButtonTapped(button: UIButton) {
 //        print(button)
         button.backgroundColor = (button.backgroundColor == nil) ? .darkGray : nil
     }

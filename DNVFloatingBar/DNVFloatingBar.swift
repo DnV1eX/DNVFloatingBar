@@ -16,9 +16,10 @@ public class DNVFloatingBar: UIView {
                 button.removeFromSuperview()
             }
             if let items = items {
-                for item in items {
+                for (index, item) in items.enumerated() {
                     let button = UIButton(type: .custom)
                     button.setImage(item.image, for: .normal)
+                    button.frame = CGRect(x: padding + (clipView.bounds.width - padding * 2 - height) / CGFloat(max(1, items.count - 1)) * CGFloat(index), y: 0, width: height, height: height)
                     clipView.addSubview(button)
                     if let action = item.action {
                         button.addTarget(item.target, action: action, for: .touchUpInside)
@@ -27,6 +28,15 @@ public class DNVFloatingBar: UIView {
             }
             setNeedsLayout()
         }
+    }
+    
+    public func setItems(_ items: [UIBarButtonItem]?, animated: Bool) {
+        UIView.setAnimationsEnabled(animated)
+        self.items = items
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+            self.layoutIfNeeded()
+            }, completion: nil)
+        UIView.setAnimationsEnabled(true)
     }
     
     public var height: CGFloat {
@@ -78,7 +88,7 @@ public class DNVFloatingBar: UIView {
         
         guard let superview = superview else { return }
         
-        frame.size = CGSize(width: height * CGFloat(items?.count ?? 0) + padding * 2, height: height)
+        frame.size = CGSize(width: height * CGFloat(max(1, items?.count ?? 0)) + padding * 2, height: height)
         center = CGPoint(x: superview.bounds.width - offset.x - frame.width / 2, y: superview.bounds.height - keyboardHeight - offset.y - frame.height / 2)
         
         layer.cornerRadius = height / 2

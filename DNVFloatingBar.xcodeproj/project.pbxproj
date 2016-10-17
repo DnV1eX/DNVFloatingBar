@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EC0E3C9A1DA7F5AA00C644C0 /* DNVFloatingBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0E3C991DA7F5AA00C644C0 /* DNVFloatingBar.swift */; };
+		EC557CE91DB31AB000F76202 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = EC557CE81DB31AB000F76202 /* LICENSE.txt */; };
 		ECCF38841DA7F1B100627AA6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCF38831DA7F1B100627AA6 /* AppDelegate.swift */; };
 		ECCF38861DA7F1B100627AA6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCF38851DA7F1B100627AA6 /* ViewController.swift */; };
 		ECCF38891DA7F1B100627AA6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ECCF38871DA7F1B100627AA6 /* Main.storyboard */; };
@@ -17,6 +18,7 @@
 
 /* Begin PBXFileReference section */
 		EC0E3C991DA7F5AA00C644C0 /* DNVFloatingBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DNVFloatingBar.swift; sourceTree = "<group>"; };
+		EC557CE81DB31AB000F76202 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		ECCF38801DA7F1B100627AA6 /* DNVFloatingBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DNVFloatingBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECCF38831DA7F1B100627AA6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ECCF38851DA7F1B100627AA6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -51,6 +53,7 @@
 				EC0E3C981DA7F44900C644C0 /* DNVFloatingBar */,
 				ECCF38821DA7F1B100627AA6 /* DNVFloatingBarDemo */,
 				ECCF38811DA7F1B100627AA6 /* Products */,
+				EC557CE81DB31AB000F76202 /* LICENSE.txt */,
 			);
 			sourceTree = "<group>";
 		};
@@ -135,6 +138,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC557CE91DB31AB000F76202 /* LICENSE.txt in Resources */,
 				ECCF388E1DA7F1B100627AA6 /* LaunchScreen.storyboard in Resources */,
 				ECCF388B1DA7F1B100627AA6 /* Assets.xcassets in Resources */,
 				ECCF38891DA7F1B100627AA6 /* Main.storyboard in Resources */,
