@@ -10,20 +10,35 @@ import UIKit
 
 public class DNVFloatingBar: UIView {
 
+    private var buttonsByItems = [UIBarButtonItem: UIButton]()
+    
+    private var deferredRemoval = false
+    
+    private func frameForButton(atIndex index: Int, buttonCount count: Int) -> CGRect {
+        return CGRect(x: padding + (clipView.bounds.width - padding * 2 - height) / CGFloat(max(1, count - 1)) * CGFloat(index), y: 0, width: height, height: height)
+    }
+    
     public var items: [UIBarButtonItem]? {
         didSet {
-            for button in clipView.subviews where button is UIButton {
-                button.removeFromSuperview()
-            }
             if let items = items {
-                for (index, item) in items.enumerated() {
+                for (index, item) in items.enumerated() where buttonsByItems[item] == nil {
                     let button = UIButton(type: .custom)
                     button.setImage(item.image, for: .normal)
-                    button.frame = CGRect(x: padding + (clipView.bounds.width - padding * 2 - height) / CGFloat(max(1, items.count - 1)) * CGFloat(index), y: 0, width: height, height: height)
+                    button.frame = frameForButton(atIndex: index, buttonCount: items.count)
                     clipView.addSubview(button)
                     if let action = item.action {
                         button.addTarget(item.target, action: action, for: .touchUpInside)
                     }
+                    buttonsByItems[item] = button
+                    if deferredRemoval {
+                        button.alpha = 0
+                    }
+                }
+            }
+            if let oldItems = oldValue, !deferredRemoval {
+                for item in oldItems where items == nil || !items!.contains(item) {
+                    buttonsByItems[item]?.removeFromSuperview()
+                    buttonsByItems[item] = nil
                 }
             }
             setNeedsLayout()
@@ -32,10 +47,33 @@ public class DNVFloatingBar: UIView {
     
     public func setItems(_ items: [UIBarButtonItem]?, animated: Bool) {
         UIView.setAnimationsEnabled(animated)
+        let oldValue = self.items
+        deferredRemoval = true
         self.items = items
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+        deferredRemoval = false
+        UIView.animate(withDuration: TimeInterval(UINavigationControllerHideShowBarDuration), delay: 0, options: .curveEaseOut, animations: {
+            for (item, button) in self.buttonsByItems {
+                if let items = items, items.contains(item) {
+                    button.alpha = 1
+                }
+                else {
+                    button.alpha = 0
+                }
+            }
             self.layoutIfNeeded()
-            }, completion: nil)
+            if let oldItems = oldValue {
+                for item in oldItems where items == nil || !items!.contains(item) {
+                    self.buttonsByItems[item]?.frame = self.frameForButton(atIndex: oldItems.index(of: item) ?? 0, buttonCount: oldItems.count)
+                }
+            }
+            }, completion: { _ in
+                if let oldItems = oldValue {
+                    for item in oldItems where items == nil || !items!.contains(item) {
+                        self.buttonsByItems[item]?.removeFromSuperview()
+                        self.buttonsByItems[item] = nil
+                    }
+                }
+            })
         UIView.setAnimationsEnabled(true)
     }
     
@@ -94,8 +132,12 @@ public class DNVFloatingBar: UIView {
         layer.cornerRadius = height / 2
         clipView.layer.cornerRadius = layer.cornerRadius
         
-        for (index, button) in clipView.subviews.enumerated() where button is UIButton {
-            button.frame = CGRect(x: height * CGFloat(index) + padding, y: 0, width: height, height: height)
+        if let items = items {
+            for (index, item) in items.enumerated() {
+                if let button = buttonsByItems[item] {
+                    button.frame = frameForButton(atIndex: index, buttonCount: items.count)//CGRect(x: height * CGFloat(index) + padding, y: 0, width: height, height: height)
+                }
+            }
         }
     }
 

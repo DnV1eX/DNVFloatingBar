@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "DNVFloatingBar"
-  s.version      = "0.2"
+  s.version      = "0.3"
   s.summary      = "Floating rounded bar with buttons for iOS apps."
 
   s.description  = <<-DESC
