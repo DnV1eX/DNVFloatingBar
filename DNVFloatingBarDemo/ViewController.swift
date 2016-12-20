@@ -14,9 +14,7 @@ class ViewController: UIViewController {
     
     let bar = DNVFloatingBar()
     
-    let searchBarButtonItem = UIBarButtonItem(image: UIImage(named: "Search"), style: .plain, target: self, action: #selector(menuButtonTapped(button:)))
-    let attachBarButtonItem = UIBarButtonItem(image: UIImage(named: "Attach"), style: .plain, target: self, action: #selector(menuButtonTapped(button:)))
-    let textBarButtonItem = UIBarButtonItem(image: UIImage(named: "Generic Text"), style: .plain, target: self, action: #selector(menuButtonTapped(button:)))
+    var searchBarButtonItem, attachBarButtonItem, textBarButtonItem: UIBarButtonItem!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +32,9 @@ class ViewController: UIViewController {
         let mode3BarButtonItem = UIBarButtonItem(title: "3", style: .plain, target: self, action: #selector(switchModeButtonTapped(item:)))
         navigationItem.rightBarButtonItems = [mode3BarButtonItem, mode2BarButtonItem, mode1BarButtonItem, mode0BarButtonItem]
         
+        searchBarButtonItem = UIBarButtonItem(image: UIImage(named: "Search"), style: .plain, target: self, action: #selector(menuButtonTapped(item:)))
+        attachBarButtonItem = UIBarButtonItem(image: UIImage(named: "Attach"), style: .plain, target: self, action: #selector(menuButtonTapped(item:)))
+        textBarButtonItem = UIBarButtonItem(image: UIImage(named: "Generic Text"), style: .plain, target: self, action: #selector(menuButtonTapped(item:)))
         bar.items = [searchBarButtonItem, attachBarButtonItem, textBarButtonItem];
         bar.backgroundColor = .brown
         view.addSubview(bar)
@@ -61,9 +62,9 @@ class ViewController: UIViewController {
         }
     }
     
-    func menuButtonTapped(button: UIButton) {
-//        print(button)
-        button.backgroundColor = (button.backgroundColor == nil) ? .darkGray : nil
+    func menuButtonTapped(item: UIBarButtonItem) {
+        print(item)
+//        button.backgroundColor = (button.backgroundColor == nil) ? .darkGray : nil
     }
 }
 

@@ -26,9 +26,7 @@ public class DNVFloatingBar: UIView {
                     button.setImage(item.image, for: .normal)
                     button.frame = frameForButton(atIndex: index, buttonCount: items.count)
                     clipView.addSubview(button)
-                    if let action = item.action {
-                        button.addTarget(item.target, action: action, for: .touchUpInside)
-                    }
+                    button.addTarget(self, action: #selector(onTap(button:event:)), for: .touchUpInside)
                     buttonsByItems[item] = button
                     if deferredRemoval {
                         button.alpha = 0
@@ -92,6 +90,7 @@ public class DNVFloatingBar: UIView {
     private var keyboardHeight: CGFloat = 0
     private let clipView = UIView()
     
+    
     init() {
         height = 40
         offset = CGPoint(x: 20, y: 20)
@@ -121,6 +120,7 @@ public class DNVFloatingBar: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     override public func layoutSubviews() {
         super.layoutSubviews()
         
@@ -141,6 +141,7 @@ public class DNVFloatingBar: UIView {
         }
     }
 
+    
     override public func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
         
@@ -150,7 +151,9 @@ public class DNVFloatingBar: UIView {
         }
     }
     
+    
     func keyboardWillChangeFrame(notification: NSNotification) {
+        
         let duration = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0
         let animationCurve = (notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber).map { UIViewAnimationCurve(rawValue: Int($0))! } ?? UIViewAnimationCurve.linear
         let keyboardFrame = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue ?? CGRect()
@@ -160,5 +163,13 @@ public class DNVFloatingBar: UIView {
             self.setNeedsLayout()
             self.layoutIfNeeded()
             }, completion: nil)
+    }
+    
+    
+    @objc private func onTap(button: UIButton, event: UIEvent) {
+        
+        guard let item = buttonsByItems.first(where: { $1 == button })?.key, let action = item.action else { return }
+        
+        UIApplication.shared.sendAction(action, to: item.target, from: item, for: event)
     }
 }
