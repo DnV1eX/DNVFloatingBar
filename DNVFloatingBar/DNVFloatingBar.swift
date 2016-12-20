@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 public class DNVFloatingBar: UIView {
 
     private var buttonsByItems = [UIBarButtonItem: UIButton]()
@@ -26,6 +27,8 @@ public class DNVFloatingBar: UIView {
                     button.setImage(item.image, for: .normal)
                     button.frame = frameForButton(atIndex: index, buttonCount: items.count)
                     clipView.addSubview(button)
+//                    object_setIvar(item, class_getInstanceVariable(type(of: item), ("_view" as NSString).utf8String), button)
+                    item.customView = button
                     button.addTarget(self, action: #selector(onTap(button:event:)), for: .touchUpInside)
                     buttonsByItems[item] = button
                     if deferredRemoval {
@@ -136,6 +139,7 @@ public class DNVFloatingBar: UIView {
             for (index, item) in items.enumerated() {
                 if let button = buttonsByItems[item] {
                     button.frame = frameForButton(atIndex: index, buttonCount: items.count)//CGRect(x: height * CGFloat(index) + padding, y: 0, width: height, height: height)
+                    button.backgroundColor = item.tintColor
                 }
             }
         }
