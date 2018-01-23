@@ -46,11 +46,11 @@ class ViewController: UIViewController {
         view.addSubview(bar)
     }
 
-    func showHideButtonTapped(item: UIBarButtonItem) {
+    @objc func showHideButtonTapped(item: UIBarButtonItem) {
         textView.resignFirstResponder()
     }
     
-    func switchModeButtonTapped(item: UIBarButtonItem) {
+    @objc func switchModeButtonTapped(item: UIBarButtonItem) {
         switch item.title {
         case "0"?:
 //            bar.items = nil
@@ -68,7 +68,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func menuButtonTapped(item: UIBarButtonItem) {
+    @objc func menuButtonTapped(item: UIBarButtonItem) {
 //        print(item)
         
         let alertController = UIAlertController(title: item.title, message: nil, preferredStyle: .actionSheet)
