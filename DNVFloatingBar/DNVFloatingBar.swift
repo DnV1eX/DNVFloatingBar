@@ -9,7 +9,7 @@
 import UIKit
 
 
-public class DNVFloatingBar: UIView {
+@objc public class DNVFloatingBar: UIView {
 
     private var buttonsByItems = [UIBarButtonItem: UIButton]()
     
@@ -19,7 +19,7 @@ public class DNVFloatingBar: UIView {
         return CGRect(x: padding + (clipView.bounds.width - padding * 2 - height) / CGFloat(max(1, count - 1)) * CGFloat(index), y: 0, width: height, height: height)
     }
     
-    public var items: [UIBarButtonItem]? {
+    @objc public var items: [UIBarButtonItem]? {
         didSet {
             if let items = items {
                 for (index, item) in items.enumerated() where buttonsByItems[item] == nil {
@@ -46,7 +46,7 @@ public class DNVFloatingBar: UIView {
         }
     }
     
-    public func setItems(_ items: [UIBarButtonItem]?, animated: Bool) {
+    @objc public func setItems(_ items: [UIBarButtonItem]?, animated: Bool) {
         UIView.setAnimationsEnabled(animated)
         let oldValue = self.items
         deferredRemoval = true
@@ -78,15 +78,15 @@ public class DNVFloatingBar: UIView {
         UIView.setAnimationsEnabled(true)
     }
     
-    public var height: CGFloat {
+    @objc public var height: CGFloat {
         didSet { setNeedsLayout() }
     }
     
-    public var offset: CGPoint {
+    @objc public var offset: CGPoint {
         didSet { setNeedsLayout() }
     }
     
-    public var padding: CGFloat {
+    @objc public var padding: CGFloat {
         didSet { setNeedsLayout() }
     }
     
@@ -94,7 +94,7 @@ public class DNVFloatingBar: UIView {
     private let clipView = UIView()
     
     
-    init() {
+    @objc init() {
         height = 40
         offset = CGPoint(x: 20, y: 20)
         padding = 5
@@ -119,12 +119,12 @@ public class DNVFloatingBar: UIView {
         addSubview(clipView)
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    @objc required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     
-    override public func layoutSubviews() {
+    @objc override public func layoutSubviews() {
         super.layoutSubviews()
         
         guard let superview = superview else { return }
@@ -146,7 +146,7 @@ public class DNVFloatingBar: UIView {
     }
 
     
-    override public func willMove(toSuperview newSuperview: UIView?) {
+    @objc override public func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
         
         NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillChangeFrame, object: nil)
@@ -156,10 +156,10 @@ public class DNVFloatingBar: UIView {
     }
     
     
-    func keyboardWillChangeFrame(notification: NSNotification) {
+    @objc func keyboardWillChangeFrame(notification: NSNotification) {
         
         let duration = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0
-        let animationCurve = (notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber).map { UIViewAnimationCurve(rawValue: Int($0))! } ?? UIViewAnimationCurve.linear
+        let animationCurve = (notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber).map { UIViewAnimationCurve(rawValue: Int(truncating: $0))! } ?? UIViewAnimationCurve.linear
         let keyboardFrame = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue ?? CGRect()
         keyboardHeight = superview?.convert(keyboardFrame, from: window).intersection(superview?.bounds ?? CGRect()).height ?? 0
         
